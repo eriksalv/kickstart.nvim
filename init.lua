@@ -168,6 +168,23 @@ vim.o.confirm = true
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- Diffview keymaps
+vim.keymap.set('n', '<leader>gdo', '<cmd>DiffviewOpen<CR>', { desc = '[G]it [D]iff [O]pen' })
+vim.keymap.set('n', '<leader>gdc', '<cmd>DiffviewClose<CR>', { desc = '[G]it [D]iff [C]lose' })
+vim.keymap.set('n', '<leader>gdf', '<cmd>DiffviewFileHistory<CR>', { desc = '[G]it [D]iff [F]ile History' })
+
+-- Resize keymaps (same as my tmux)
+local resize = function(win, amt, dir)
+  return function()
+    require('winresize').resize(win, amt, dir)
+  end
+end
+
+vim.keymap.set('n', '<C-up>', resize(0, 2, 'up'), { desc = 'Resize window [Up] by 2 lines' })
+vim.keymap.set('n', '<C-down>', resize(0, 2, 'down'), { desc = 'Resize window [Down] by 2 lines' })
+vim.keymap.set('n', '<C-left>', resize(0, 2, 'left'), { desc = 'Resize window [Left] by 2 columns' })
+vim.keymap.set('n', '<C-right>', resize(0, 2, 'right'), { desc = 'Resize window [Right] by 2 columns' })
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')

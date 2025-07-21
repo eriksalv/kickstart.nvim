@@ -109,6 +109,7 @@ vim.o.mouse = 'a'
 
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
+-- vim.o.clipboard = 'unnamedplus'
 
 -- Diagonal lines in place of deleted lines in diff-mode
 -- vim.o.fillchars:append { diff = '/' }
@@ -117,9 +118,9 @@ vim.o.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.o.clipboard = 'unnamedplus'
-end)
+-- vim.schedule(function()
+--   vim.o.clipboard = 'unnamedplus'
+-- end)
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -171,6 +172,23 @@ vim.o.confirm = true
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
+
+-- Easy Visual Indentation
+
+vim.keymap.set('v', '<', '<gv')
+vim.keymap.set('v', '>', '>gv')
+
+-- Move / Duplicate Lines
+
+vim.keymap.set('n', '<A-down>', ':m+1<CR>', { desc = 'Move Down', silent = true })
+vim.keymap.set('n', '<A-up>', ':m-2<CR>', { desc = 'Move Up', silent = true })
+vim.keymap.set('v', '<A-down>', ":m '>+1<CR>gv=gv", { desc = 'Move Down', silent = true })
+vim.keymap.set('v', '<A-up>', ":m '<-2<CR>gv=gv", { desc = 'Move Up', silent = true })
+
+vim.keymap.set('n', '<C-A-down>', ':t.<CR>', { desc = 'Duplicate Up', silent = true })
+vim.keymap.set('n', '<C-A-up>', ':t-1<CR>', { desc = 'Duplicate Down', silent = true })
+vim.keymap.set('v', '<C-A-down>', ":t '>.<CR>gv=gv", { desc = 'Duplicate Down', silent = true })
+vim.keymap.set('v', '<C-A-up>', ":t '<-1<CR>gv=gv", { desc = 'Duplicate Up', silent = true })
 
 -- Diffview keymaps
 vim.keymap.set('n', '<leader>gdo', '<cmd>DiffviewOpen<CR>', { desc = '[G]it [D]iff [O]pen' })

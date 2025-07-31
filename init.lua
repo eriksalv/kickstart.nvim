@@ -124,6 +124,7 @@ vim.o.showmode = false
 
 -- Enable break indent
 vim.o.breakindent = true
+vim.o.shiftwidth = 2
 
 -- Save undo history
 vim.o.undofile = true
@@ -461,6 +462,11 @@ require('lazy').setup({
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'refactoring')
+
+      vim.keymap.set({ 'n', 'x' }, '<leader>rr', function()
+        require('telescope').extensions.refactoring.refactors()
+      end)
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
@@ -737,6 +743,7 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {},
         --
+        kotlin_language_server = {},
 
         lua_ls = {
           -- cmd = { ... },
@@ -771,6 +778,7 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'ruff',
+        'ktlint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -828,6 +836,8 @@ require('lazy').setup({
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        kotlin = { 'ktlint' },
+        html = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -854,12 +864,12 @@ require('lazy').setup({
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
         opts = {},
       },
@@ -1064,7 +1074,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'kotlin', 'rust', 'python' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
